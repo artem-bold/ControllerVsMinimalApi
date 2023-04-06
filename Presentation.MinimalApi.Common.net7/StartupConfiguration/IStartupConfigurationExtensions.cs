@@ -13,18 +13,9 @@ public static class IStartupConfigurationExtensions
 {
     private static MethodInfo createMethod = typeof(IStartupConfigurationExtensions)
         .GetMethod(nameof(CreateGenericStartupConfigMethods), BindingFlags.NonPublic | BindingFlags.Static)!;
-
-    private static List<Assembly> scanningAssemblies = new();
-
-    public static IServiceCollection AddStartupConfigurations(this IServiceCollection services, IConfiguration configuration, params Assembly[] assemblies)
+    
+    public static IServiceCollection AddStartupConfigurations(this IServiceCollection services, IConfiguration configuration)
     {
-        if (assemblies.Length == 0)
-        {
-            assemblies = new[] { Assembly.GetCallingAssembly() };
-        }
-
-        scanningAssemblies.AddRange(assemblies);
-
         var startupConfigurations = GetStartupConfigurations();
 
         foreach (var startupConfiguration in startupConfigurations)
@@ -44,13 +35,13 @@ public static class IStartupConfigurationExtensions
             startupConfiguration.ConfigureApp(app);
         }
 
-        scanningAssemblies.Clear();
-
         return app;
     }
 
     private static IEnumerable<StartupConfigMethods> GetStartupConfigurations()
     {
+        var scanningAssemblies = new[] { Assembly.GetCallingAssembly() };
+
         var types = scanningAssemblies.SelectMany(a => a.GetTypes());
 
         return scanningAssemblies
@@ -70,9 +61,9 @@ public static class IStartupConfigurationExtensions
         where TStartupConfig : IStartupConfiguration
     {
         return new StartupConfigMethods(
-            TStartupConfig.Order, 
-            typeof(TStartupConfig).Name, 
-            TStartupConfig.ConfigureApp, 
+            TStartupConfig.Order,
+            typeof(TStartupConfig).Name,
+            TStartupConfig.ConfigureApp,
             TStartupConfig.ConfigureServices);
     }
 
