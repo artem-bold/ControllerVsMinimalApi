@@ -23,6 +23,7 @@ public static class LoggingStartup
             .ReadFrom.Configuration(context.Configuration)
             .ReadFrom.Services(services)
             .Enrich.FromLogContext()
-            .WriteTo.Console());
+            .WriteTo.Console(),
+            true);
     }
 }

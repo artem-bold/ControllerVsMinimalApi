@@ -1,3 +1,4 @@
+using System.Reflection;
 using Application;
 using Application.Todos;
 
@@ -39,3 +40,7 @@ app.MapEndpoints();
 app.UseStartupConfigurations();
 
 app.Run();
+
+public partial class Program
+{
+}

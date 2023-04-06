@@ -9,7 +9,7 @@ using Application.Todos;
 
 using Microsoft.EntityFrameworkCore;
 
-internal class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext
 {
     public DbSet<Todo> Todos { get; set; } = null!;
 

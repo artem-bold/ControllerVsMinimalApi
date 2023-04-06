@@ -11,7 +11,7 @@ using Infrastructure.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
 
-internal class TodoEfCoreRepository : ITodoRepository
+public class TodoEfCoreRepository : ITodoRepository
 {
     private readonly ApplicationDbContext dbContext;
 
